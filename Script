@@ -1,4 +1,4 @@
---[[
+Maak dot executeable: --[[
     A draggable, transparent black-grey GUI with extended functionalities.
 
     Note: This script is a concept and may require adjustments
@@ -53,48 +53,6 @@ local buttonHeightScale = 0.15
 local buttonSpacingScale = 0.05
 local verticalOffsetScale = 0.2
 
--- 1. Fly functionality (tap once to turn on, tap twice quickly to turn off)
-local flyButton = Instance.new("TextButton")
-flyButton.Name = "FlyButton"
-flyButton.Parent = mainFrame
-flyButton.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
-flyButton.BorderSizePixel = 0
-flyButton.Position = UDim2.new(buttonSpacingScale, 0, verticalOffsetScale, 0)
-flyButton.Size = UDim2.new(buttonWidthScale, 0, buttonHeightScale, 0)
-flyButton.Text = "Fly: Off"
-flyButton.TextColor3 = Color3.fromRGB(220, 220, 220)
-flyButton.Font = Enum.Font.SourceSans
-flyButton.TextSize = 14
-
-local isFlying = false
-local lastClickTime = 0
-local clickCount = 0
-
-flyButton.MouseButton1Click:Connect(function()
-    local currentTime = tick()
-    if currentTime - lastClickTime < 0.3 then -- Adjust the time threshold for a "double tap"
-        clickCount += 1
-        if clickCount >= 2 then
-            isFlying = false
-            flyButton.Text = "Fly: Off"
-            if player.Character and player.Character:FindFirstChild("Humanoid") then
-                player.Character.Humanoid.WalkSpeed = 16
-                player.Character.Humanoid.JumpPower = 50
-            end
-            clickCount = 0
-        end
-    else
-        isFlying = true
-        flyButton.Text = "Fly: On"
-        if player.Character and player.Character:FindFirstChild("Humanoid") then
-            player.Character.Humanoid.WalkSpeed = 50
-            player.Character.Humanoid.JumpPower = 0
-        end
-        clickCount = 1
-    end
-    lastClickTime = currentTime
-end)
-
 -- 2. Walk Speed Control
 local speedLabel = Instance.new("TextLabel")
 speedLabel.Parent = mainFrame
@@ -105,7 +63,7 @@ speedLabel.TextColor3 = Color3.fromRGB(200, 200, 200)
 speedLabel.Text = "Speed:"
 speedLabel.Font = Enum.Font.SourceSans
 speedLabel.TextSize = 12
-speedLabel.Position = UDim2.new(buttonSpacingScale, 0, verticalOffsetScale + (buttonHeightScale + buttonSpacingScale), 0)
+speedLabel.Position = UDim2.new(buttonSpacingScale, 0, verticalOffsetScale, 0)
 speedLabel.Size = UDim2.new(buttonWidthScale, 0, buttonHeightScale / 2, 0)
 speedLabel.AnchorPoint = Vector2.new(0, 0)
 speedLabel.TextXAlignment = Enum.TextXAlignment.Left
@@ -120,7 +78,7 @@ speedTextBox.TextColor3 = Color3.fromRGB(220, 220, 220)
 speedTextBox.Font = Enum.Font.SourceSans
 speedTextBox.TextSize = 14
 speedTextBox.PlaceholderText = "Value"
-speedTextBox.Position = UDim2.new(buttonSpacingScale, 0, verticalOffsetScale + (buttonHeightScale + buttonSpacingScale) + buttonHeightScale / 2, 0)
+speedTextBox.Position = UDim2.new(buttonSpacingScale, 0, verticalOffsetScale + buttonHeightScale / 2, 0)
 speedTextBox.Size = UDim2.new(buttonWidthScale, 0, buttonHeightScale / 2, 0)
 
 speedTextBox.FocusLost:Connect(function()
@@ -145,7 +103,7 @@ jumpLabel.TextColor3 = Color3.fromRGB(200, 200, 200)
 jumpLabel.Text = "Jump Power:"
 jumpLabel.Font = Enum.Font.SourceSans
 jumpLabel.TextSize = 12
-jumpLabel.Position = UDim2.new(1 - buttonSpacingScale - buttonWidthScale, 0, verticalOffsetScale + (buttonHeightScale + buttonSpacingScale), 0)
+jumpLabel.Position = UDim2.new(1 - buttonSpacingScale - buttonWidthScale, 0, verticalOffsetScale, 0)
 jumpLabel.Size = UDim2.new(buttonWidthScale, 0, buttonHeightScale / 2, 0)
 jumpLabel.AnchorPoint = Vector2.new(0, 0)
 jumpLabel.TextXAlignment = Enum.TextXAlignment.Left
@@ -160,7 +118,7 @@ jumpTextBox.TextColor3 = Color3.fromRGB(220, 220, 220)
 jumpTextBox.Font = Enum.Font.SourceSans
 jumpTextBox.TextSize = 14
 jumpTextBox.PlaceholderText = "Value"
-jumpTextBox.Position = UDim2.new(1 - buttonSpacingScale - buttonWidthScale, 0, verticalOffsetScale + (buttonHeightScale + buttonSpacingScale) + buttonHeightScale / 2, 0)
+jumpTextBox.Position = UDim2.new(1 - buttonSpacingScale - buttonWidthScale, 0, verticalOffsetScale + buttonHeightScale / 2, 0)
 jumpTextBox.Size = UDim2.new(buttonWidthScale, 0, buttonHeightScale / 2, 0)
 
 jumpTextBox.FocusLost:Connect(function()
@@ -185,7 +143,7 @@ teleportLabel.TextColor3 = Color3.fromRGB(200, 200, 200)
 teleportLabel.Text = "Teleport to:"
 teleportLabel.Font = Enum.Font.SourceSans
 teleportLabel.TextSize = 12
-teleportLabel.Position = UDim2.new(buttonSpacingScale, 0, verticalOffsetScale + 2 * (buttonHeightScale + buttonSpacingScale), 0)
+teleportLabel.Position = UDim2.new(buttonSpacingScale, 0, verticalOffsetScale + (buttonHeightScale + buttonSpacingScale), 0)
 teleportLabel.Size = UDim2.new(1 - 2 * buttonSpacingScale, 0, buttonHeightScale / 2, 0)
 teleportLabel.AnchorPoint = Vector2.new(0, 0)
 teleportLabel.TextXAlignment = Enum.TextXAlignment.Left
@@ -200,7 +158,7 @@ targetTextBox.TextColor3 = Color3.fromRGB(220, 220, 220)
 targetTextBox.Font = Enum.Font.SourceSans
 targetTextBox.TextSize = 14
 targetTextBox.PlaceholderText = "Player Name"
-targetTextBox.Position = UDim2.new(buttonSpacingScale, 0, verticalOffsetScale + 2 * (buttonHeightScale + buttonSpacingScale) + buttonHeightScale / 2, 0)
+targetTextBox.Position = UDim2.new(buttonSpacingScale, 0, verticalOffsetScale + (buttonHeightScale + buttonSpacingScale) + buttonHeightScale / 2, 0)
 targetTextBox.Size = UDim2.new(0.6, 0, buttonHeightScale / 2, 0)
 
 local teleportButton = Instance.new("TextButton")
@@ -208,7 +166,7 @@ teleportButton.Name = "TeleportButton"
 teleportButton.Parent = mainFrame
 teleportButton.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
 teleportButton.BorderSizePixel = 0
-teleportButton.Position = UDim2.new(buttonSpacingScale + 0.6 + buttonSpacingScale, 0, verticalOffsetScale + 2 * (buttonHeightScale + buttonSpacingScale) + buttonHeightScale / 2, 0)
+teleportButton.Position = UDim2.new(buttonSpacingScale + 0.6 + buttonSpacingScale, 0, verticalOffsetScale + (buttonHeightScale + buttonSpacingScale) + buttonHeightScale / 2, 0)
 teleportButton.Size = UDim2.new(0.4 - 2 * buttonSpacingScale, 0, buttonHeightScale / 2, 0)
 teleportButton.Text = "Teleport"
 teleportButton.TextColor3 = Color3.fromRGB(220, 220, 220)
@@ -238,7 +196,7 @@ godModeButton.Name = "GodModeButton"
 godModeButton.Parent = mainFrame
 godModeButton.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
 godModeButton.BorderSizePixel = 0
-godModeButton.Position = UDim2.new(1 - buttonSpacingScale - buttonWidthScale, 0, verticalOffsetScale, 0)
+godModeButton.Position = UDim2.new(1 - buttonSpacingScale - buttonWidthScale, 0, verticalOffsetScale + (buttonHeightScale + buttonSpacingScale), 0)
 godModeButton.Size = UDim2.new(buttonWidthScale, 0, buttonHeightScale, 0)
 godModeButton.Text = "God Mode: Off"
 godModeButton.TextColor3 = Color3.fromRGB(220, 220, 220)
@@ -276,7 +234,7 @@ noClipButton.Name = "NoClipButton"
 noClipButton.Parent = mainFrame
 noClipButton.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
 noClipButton.BorderSizePixel = 0
-noClipButton.Position = UDim2.new(buttonSpacingScale, 0, verticalOffsetScale + 3 * (buttonHeightScale + buttonSpacingScale), 0)
+noClipButton.Position = UDim2.new(buttonSpacingScale, 0, verticalOffsetScale + 2 * (buttonHeightScale + buttonSpacingScale), 0)
 noClipButton.Size = UDim2.new(buttonWidthScale, 0, buttonHeightScale, 0)
 noClipButton.Text = "No Clip: Off"
 noClipButton.TextColor3 = Color3.fromRGB(220, 220, 220)
@@ -314,6 +272,11 @@ tpPosLabel.TextColor3 = Color3.fromRGB(200, 200, 200)
 tpPosLabel.Text = "Teleport Coordinates:"
 tpPosLabel.Font = Enum.Font.SourceSans
 tpPosLabel.TextSize = 12
-tpPosLabel.Position = UDim2.new(1 - buttonSpacingScale - buttonWidthScale, 0, verticalOffsetScale + 3 * (buttonHeightScale + buttonSpacingScale), 0)
+tpPosLabel.Position = UDim2.new(1 - buttonSpacingScale - buttonWidthScale, 0, verticalOffsetScale + 2 * (buttonHeightScale + buttonSpacingScale), 0)
 tpPosLabel.Size = UDim2.new(buttonWidthScale, 0, buttonHeightScale / 2, 0)
-tpPosLabel.AnchorPoint = Vector2.new(0, 0
+tpPosLabel.AnchorPoint = Vector2.new(0, 0)
+tpPosLabel.TextXAlignment = Enum.TextXAlignment.Left
+
+local xTextBox = Instance.new("TextBox")
+xTextBox.Name = "XTextBox"
+xTextBox.Parent = mainFrame
